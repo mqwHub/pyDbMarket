@@ -22,7 +22,6 @@ class DB(object):
 
     def login(self):
         print self.response.geturl()
-        print self.url
         if self.response.geturl() == self.url:
             print 'logining...'
             html = self.response.read()
@@ -34,11 +33,17 @@ class DB(object):
             ids = re.findall(regid, html)
             self.post["captcha-solution"] = captcha
             self.post["captcha-id"] = ids[0]
-            self.post["user_login"] = "登录"
-            self.post["redir"] = 'http://www.douban.com/doumail/'
+            self.post["login"] = "登录"
+            self.post["redir"] = 'http://www.douban.com'
             self.response = self.opener.open(self.url, urllib.urlencode(self.post))
-            if self.response.geturl() == "http://www.douban.com/doumail/":
+            print self.response.geturl()
+            if self.response.geturl() == "http://www.douban.com/":
                 print 'login success !'
+                print self.response.read()
+        elif self.response.geturl() == "http://www.douban.com":
+            print 'login success !'
+            print self.response.read()
+            
     
     def getMainPage(self):
         url = "http://www.douban.com"
@@ -89,4 +94,4 @@ email = raw_input('Your email: ')
 passwd = raw_input('Your passwd: ')   
 my = DB(email, passwd)         
 my.login()
-my.followAllShop()
+# my.followAllShop()
